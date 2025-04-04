@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 
 const customerRouter = require('./routes/customer');
+const { database } = require('./configs/database');
 
 const PORT = 3000
 const app = new Koa();
@@ -13,4 +14,12 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
 
-app.listen(PORT, () => console.log('Server started on port ' + PORT));
+app.listen(PORT, async () => {
+  console.log('Server started on port ' + PORT)
+  try {
+    await database.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+});
