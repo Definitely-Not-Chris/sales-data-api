@@ -22,7 +22,8 @@ const Customer = database.define('Customer', {
     timestamps: true
 });
 
-Customer.hasOne(Sales, { 
+
+Sales.belongsTo(Customer, { 
     foreignKey: {
         name: 'customerId',
         allowNull: false
