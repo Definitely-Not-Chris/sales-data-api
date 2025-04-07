@@ -1,15 +1,34 @@
 const { DataTypes } = require('sequelize')
-const { database } = require('../configs/database')
+const { database } = require('../configs/database');
+const { Sales } = require('./sales');
 
-exports.Product = database.define('Product', {
+const Product = database.define('Product', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    name: DataTypes.STRING,
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     unit: DataTypes.STRING,
-    price: DataTypes.FLOAT,
+    price: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
 }, {
     timestamps: true
 });
+
+Product.hasMany(Sales, { 
+    foreignKey: {
+        name: 'productId',
+        allowNull: false
+    }, 
+    as: 'products',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
+})
+
+exports.Product = Product
