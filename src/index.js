@@ -1,18 +1,19 @@
 const Koa = require('koa');
-const Router = require('koa-router');
 
-const customerRouter = require('./routes/customer');
-const { database } = require('./configs/database');
+const { koaBody } = require('koa-body');
+const database = require('./configs/database');
+const errorHandler = require('./middleware/error');
+const mainRouter = require('./routes');
 
 const PORT = 3000
 const app = new Koa();
-const router = new Router({ prefix: '/api' });
 
-router.use('/v1/customers', customerRouter.routes(), customerRouter.allowedMethods());
+app.use(koaBody())
+app.use(errorHandler)
 
 app
-  .use(router.routes())
-  .use(router.allowedMethods())
+  .use(mainRouter.routes())
+  .use(mainRouter.allowedMethods())
 
 app.listen(PORT, async () => {
   console.log('Server started on port ' + PORT)
