@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize')
 const database = require('../configs/database');
-const { Sales } = require('./sales');
 
 const Product = database.define('Product', {
     id: {
@@ -20,15 +19,5 @@ const Product = database.define('Product', {
 }, {
     timestamps: true
 });
-
-Product.hasMany(Sales, { 
-    foreignKey: {
-        name: 'productId',
-        allowNull: false
-    }, 
-    as: 'products',
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-})
 
 exports.Product = Product
