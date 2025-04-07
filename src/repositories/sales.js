@@ -1,9 +1,41 @@
+const database = require("../configs/database");
+const { Customer } = require("../models/customer");
+const { Product } = require("../models/product");
 const { Sales } = require("../models/sales");
 const { SalesProducts } = require('../models/sales-products') 
 
-exports.getAll = () => {
+exports.getAll = (query) => {
+    let where = {}
+    let whereCustomer = {}
+
+    if(query.date) {
+        where = Sales.sequelize.where(
+            Sales.sequelize.fn('strftime', '%m', Sales.sequelize.col('Sales.createdAt')),
+            query.date.substring(5, 7)
+        )
+    }
+
+    if(query.customerId) {
+        whereCustomer = {
+            id: query.customerId
+        }
+    }
+
     return Sales.findAndCountAll({
-        include: ['products']
+        where,
+        include: [
+            {
+                model: Product,
+                as: 'products',
+                required: true,
+            },
+            { 
+                model: Customer, 
+                where: whereCustomer, 
+                required: true,
+                as: 'customer'
+            }
+        ],
     });
 };
 

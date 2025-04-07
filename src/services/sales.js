@@ -1,8 +1,8 @@
 const { NotFoundError } = require('../types/error')
 const repository = require('../repositories/sales')
 
-exports.getAll = () => {
-    return repository.getAll();
+exports.getAll = (query) => {
+    return repository.getAll(query);
 };
 
 exports.getById = async (id) => {

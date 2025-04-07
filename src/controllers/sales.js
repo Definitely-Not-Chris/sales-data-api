@@ -3,7 +3,7 @@
 const service = require('../services/sales')
 
 exports.getAllSales = async (ctx) => {
-    ctx.body = await service.getAll();
+    ctx.body = await service.getAll(ctx.request.body);
 };
 
 exports.getSalesById = async (ctx) => {
