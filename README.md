@@ -8,8 +8,8 @@ INITIALIZE PROJECT:
 5. npm i zod            #validation schema
 
 TO RUN THE APPLICATION:
-npm install
-npm run dev
+1. npm install
+1. npm run dev
 
 TECHOLOGIES USED:
 1. Koa
